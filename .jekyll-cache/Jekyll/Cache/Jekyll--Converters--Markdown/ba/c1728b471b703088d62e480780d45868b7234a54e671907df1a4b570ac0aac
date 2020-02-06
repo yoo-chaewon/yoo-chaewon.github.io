@@ -1,0 +1,141 @@
+I"><h2 id="문제">문제</h2>
+
+<p>여러분도 알다시피 여러분의 프린터 기기는 여러분이 인쇄하고자 하는 문서를 인쇄 명령을 받은 ‘순서대로’, 즉 먼저 요청된 것을 먼저 인쇄한다. 여러 개의 문서가 쌓인다면 Queue 자료구조에 쌓여서 FIFO - First In First Out - 에 따라 인쇄가 되게 된다. 하지만 상근이는 새로운 프린터기 내부 소프트웨어를 개발하였는데, 이 프린터기는 다음과 같은 조건에 따라 인쇄를 하게 된다.</p>
+
+<ol>
+  <li>현재 Queue의 가장 앞에 있는 문서의 ‘중요도’를 확인한다.</li>
+  <li>나머지 문서들 중 현재 문서보다 중요도가 높은 문서가 하나라도 있다면, 이 문서를 인쇄하지 않고 Queue의 가장 뒤에 재배치 한다. 그렇지 않다면 바로 인쇄를 한다.</li>
+</ol>
+
+<p>예를 들어 Queue에 4개의 문서(A B C D)가 있고, 중요도가 2 1 4 3 라면 C를 인쇄하고, 다음으로 D를 인쇄하고 A, B를 인쇄하게 된다.</p>
+
+<p>여러분이 할 일은, 현재 Queue에 있는 문서의 수와 중요도가 주어졌을 때, 어떤 한 문서가 몇 번째로 인쇄되는지 알아내는 것이다. 예를 들어 위의 예에서 C문서는 1번째로, A문서는 3번째로 인쇄되게 된다.</p>
+
+<h3 id="입력">입력</h3>
+
+<p>첫 줄에 test case의 수가 주어진다. 각 test case에 대해서 문서의 수 N(100이하)와 몇 번째로 인쇄되었는지 궁금한 문서가 현재 Queue의 어떤 위치에 있는지를 알려주는 M(0이상 N미만)이 주어진다. 다음줄에 N개 문서의 중요도가 주어지는데, 중요도는 1 이상 9 이하이다. 중요도가 같은 문서가 여러 개 있을 수도 있다. 위의 예는 N=4, M=0(A문서가 궁금하다면), 중요도는 2 1 4 3이 된다.</p>
+
+<h3 id="출력">출력</h3>
+
+<p>각 test case에 대해 문서가 몇 번째로 인쇄되는지 출력한다.</p>
+
+<h3 id="예제-입력-1">예제 입력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3
+1 0
+5
+4 2
+1 2 3 4
+6 0
+1 1 9 1 1 1
+</code></pre></div></div>
+
+<h3 id="예제-출력-1">예제 출력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1
+2
+5
+</code></pre></div></div>
+
+<h2 id="나의-코드">나의 코드</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.LinkedList</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="kt">int</span> <span class="n">testCase</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="n">testCase</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="no">NM</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="no">NM</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span> <span class="c1">//문서수</span>
+            <span class="kt">int</span> <span class="no">M</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="no">NM</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span> <span class="c1">//문서 결과 찾아야 하는</span>
+
+            <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+            <span class="kt">int</span><span class="o">[]</span> <span class="n">priority</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span><span class="o">];</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">input</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">list</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="n">i</span><span class="o">]));</span>
+                <span class="n">priority</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+            <span class="o">}</span>
+            <span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">priority</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">cur</span> <span class="o">=</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+            <span class="k">while</span> <span class="o">(!</span><span class="n">list</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">temp</span> <span class="o">!=</span> <span class="n">priority</span><span class="o">[</span><span class="n">cur</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">list</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span>
+                    <span class="no">M</span> <span class="o">=</span> <span class="o">(</span><span class="no">M</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">--</span><span class="no">M</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">cur</span><span class="o">--;</span>
+                    <span class="n">answer</span><span class="o">++;</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="no">M</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">answer</span><span class="o">);</span>
+                        <span class="k">break</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="no">M</span><span class="o">--;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>푸는 방법은 여러가지 있겠지만 내가 푼 방법은</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 큐: 우선순위가 들어가 있음.
+- priority List: 우선순위가 정렬되어 있으며, 큐에서 우선순위가 높은게 빠질 때 다음 우선순위를 본다.
+- 찾아야 하는 문서 번호가 M이라고 하면, 이것이 0일때 이 문서가 출력 되는것이다. 따라서 이 값을 -- ++ 하면서 위치를 조정해준다.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>프린터큐 작동 방법</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">priority</span><span class="o">);</span><span class="c1">//우선순위를 정렬해준다.</span>
+  
+<span class="k">while</span> <span class="o">(!</span><span class="n">list</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+  <span class="kt">int</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">temp</span> <span class="o">!=</span> <span class="n">priority</span><span class="o">[</span><span class="n">cur</span><span class="o">])</span> <span class="o">{</span><span class="c1">//현재 우선순위와 큐에서 뽑은 것이 같지 않은 경우, </span>
+    <span class="n">list</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span> <span class="c1">//다시 뒤에 넣어줘야한다.즉 이것은 뽑은 것이 현재 우선순위와 같을때까지 해준다.</span>
+    <span class="no">M</span> <span class="o">=</span> <span class="o">(</span><span class="no">M</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">--</span><span class="no">M</span><span class="o">;</span><span class="c1">//내가 찾고자 하는 문서는 앞으로 한칸씩 이동할 것이다.</span>
+    <span class="c1">//만약 0인경우 -1을 할경우 리스트의 맨 뒤로 오기 때문에 list.size() -1을 해준다.</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span><span class="c1">//현재 우선순위와 큐에서 뽑은 것이 같은 경우</span>
+    <span class="n">cur</span><span class="o">--;</span><span class="c1">//다음 우선순위 볼 것이므로(오름차순 정렬으로 --을 해준다.)</span>
+    <span class="n">answer</span><span class="o">++;</span><span class="c1">//우선순위 높은 것이 출력된 것이므로 +1을 해준다.</span>
+    <span class="k">if</span> <span class="o">(</span><span class="no">M</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span><span class="c1">//내가 찾고자하는 위치가 0이라는 것은 내가 찾고자 하는것이 출력되는 것. </span>
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">answer</span><span class="o">);</span><span class="c1">//결과 출력하고 끝 !</span>
+      <span class="k">break</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="no">M</span><span class="o">--;</span><span class="c1">//아니면 위치 변경, 위에서 M != 0임이 확정이므로, 그냥 --해주면 된다.</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>기억해야 할 것!!!!!!</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">M</span> <span class="o">=</span> <span class="o">(</span><span class="no">M</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">--</span><span class="no">M</span><span class="o">;</span>
+<span class="c1">//if else 가 한줄에 된다. 신기하다. 다음에 꼭 써먹어 보도록 ‼️</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h5 id="느낀점">느낀점</h5>
+
+<p>이 문제는 3번째 푸는데도 어려운 문제다….ㅋㅋㅋㅋ그래도 맨 처음 풀었을 때에 비해서는 더 효율적으로 짠거 같다. 그리고 두번째랑은 코드가 아주 유사하다. 심지어 그때가 더 나은거 같기도..난 왜이렇게 이문제가 어려운걸까..다음에 풀때도 어려울지 궁금하다 ㅎㅅㅎ 다음에 풀때는 한번에 풀어내고 싶다 . !</p>
+
+<blockquote>
+  <p>문제 : https://www.acmicpc.net/problem/1966</p>
+
+  <p>저장소 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/026b0406353454d35f3766b4f156b30c59e6f46d/Algorithm/1.BOJ/Q_1966_프린터큐_0203.java</p>
+</blockquote>
+:ET

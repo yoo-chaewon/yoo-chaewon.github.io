@@ -1,0 +1,90 @@
+I"v<h2 id="문제">문제</h2>
+
+<p>백준대학교에서는 대회에 나갈 때 2명의 여학생과 1명의 남학생이 팀을 결성해서 나가는 것이 원칙이다. (왜인지는 총장님께 여쭈어보는 것이 좋겠다.)</p>
+
+<p>백준대학교는 뛰어난 인재들이 많아 올해에도 N명의 여학생과 M명의 남학생이 팀원을 찾고 있다.</p>
+
+<p>그런데 올해에는 대회에 참여하려는 학생들 중 K명을 반드시 인턴쉽 프로그램에 참여하라는 학교의 방침이 생기게 되었다. 인턴쉽에 참여하는 학생은 대회에 참여하지 못한다.</p>
+
+<p>백준대학교에서는 뛰어난 인재들이 많기 때문에, 많은 팀을 만드는 것이 최선이다.</p>
+
+<p>여러분은 N명의 여학생과 M명의 남학생, K명의 인턴쉽에 참여해야하는 인원이 주어질 때 만들 수 있는 최대의 팀 수를 구하면 된다.</p>
+
+<h3 id="입력">입력</h3>
+
+<p>첫째 줄에 N, M, K가 순서대로 주어진다. (0 ≤ M ≤ 100), (0 ≤ N ≤ 100), (0 ≤ K ≤ M+N),</p>
+
+<h3 id="출력">출력</h3>
+
+<p>만들 수 있는 팀의 최댓값을 출력하면 된다.</p>
+
+<h3 id="예제">예제</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>6 3 2
+</code></pre></div></div>
+
+<h3 id="예제-1">예제</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2
+</code></pre></div></div>
+
+<h2 id="나의-코드">나의 코드</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="nc">String</span><span class="o">[]</span> <span class="n">input</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+        <span class="kt">int</span> <span class="no">M</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+        <span class="kt">int</span> <span class="no">K</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="mi">2</span><span class="o">]);</span>
+        <span class="kt">int</span> <span class="n">total</span> <span class="o">=</span> <span class="no">N</span> <span class="o">+</span> <span class="no">M</span><span class="o">;</span>
+
+        <span class="kt">int</span> <span class="n">team</span> <span class="o">=</span> <span class="no">M</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+            <span class="k">if</span> <span class="o">(</span><span class="no">K</span> <span class="o">&lt;=</span><span class="n">total</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">team</span> <span class="o">&amp;&amp;</span> <span class="n">team</span><span class="o">*</span><span class="mi">2</span> <span class="o">&lt;=</span> <span class="no">N</span><span class="o">)</span> <span class="k">break</span><span class="o">;</span>
+            <span class="n">team</span> <span class="o">--;</span>
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">team</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>먼저 나올수 있는 팀의 수의 가장 max값은 남학생 수라고 생각을 했다.</p>
+
+    <p>남학생1명, 여학생2명이 한 팀이기 때문에 !</p>
+  </li>
+  <li>
+    <p>다음은 while문을 돌면서</p>
+
+    <ol>
+      <li>
+        <p>팀에 속하지 않은 학생이 인턴수보다 커야한다.</p>
+
+        <p>K &lt;=total-3*team</p>
+      </li>
+      <li>
+        <p>남학생을 기준으로 팀을 계산했기 때문에 여학생도 이 것에 부합해야 한다.</p>
+
+        <p>따라서, team*2 &lt;= N 을 해주었다.</p>
+
+        <p>👉 위 조건에 만족을 하면 break, 만족하지 못하면 team을 1개씩 줄여 나갔다.</p>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h2 id="느낀점">느낀점</h2>
+
+<p>2달만에 다시 풀었던 문젠데 그때는 어렵게 생각해서 팀 수를 나눠서 계산했던거 같다. 하지만 이번에는 간단하게 생각해서 쉽게 나온거 같다!</p>
+
+<ul>
+  <li>문제 : https://www.acmicpc.net/problem/2875</li>
+  <li>저장소1 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/1.BOJ/Q_2875_대회or인턴.java</li>
+  <li>저장소2 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/1.BOJ/Q_2875_대회or인턴_ver2.java</li>
+</ul>
+:ET

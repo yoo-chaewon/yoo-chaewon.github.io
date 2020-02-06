@@ -1,0 +1,154 @@
+I"�<p>[React Native로 날씨앱 만들기]를 하기에 앞서 먼저 개발 환경을 설치하고자 한다.</p>
+
+<h3 id="-설치할-것">📌 설치할 것</h3>
+
+<ul>
+  <li>
+    <p><strong>Node.js</strong> -&gt; 10이상</p>
+  </li>
+  <li>
+    <p><strong>npn</strong>(Node Version Manager) -&gt; 6이상</p>
+  </li>
+  <li>
+    <p><strong>시뮬레이터</strong> -&gt; 안드로이드 스튜디오, xcode</p>
+  </li>
+  <li>
+    <p>iOS, Android 앱 <strong>엑스포</strong> <strong>폰</strong>에 설치</p>
+
+    <p>https://apps.apple.com/kr/app/expo-client/id982107779</p>
+
+    <p>👉 iOS, 안드로이드 앱 expo가 테스트 할 수 있는 유일한 방법(휴대폰에서)</p>
+  </li>
+  <li>
+    <p>‼️설치 완료 후</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> expo-cli
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="npm설치">NPM설치</h3>
+
+<p>🧐참고로 NPM은 Node Version Manager의 줄임말 !</p>
+
+<ol>
+  <li>
+    <p>설치</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>curl <span class="nt">-o-</span> https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">ls</span>
+   
+<span class="nt">-bash</span>: nvm: <span class="nb">command </span>not found //이렇게 뜬다.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>터미널을 종료했다가 다시 켠다.</p>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>vi ~/.bash_profile
+</code></pre></div>    </div>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">NVM_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.nvm"</span>
+<span class="o">[</span> <span class="nt">-s</span> <span class="s2">"</span><span class="nv">$NVM_DIR</span><span class="s2">/nvm.sh"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">.</span> <span class="s2">"</span><span class="nv">$NVM_DIR</span><span class="s2">/nvm.sh"</span> <span class="c"># This loads nvm</span>
+//이 코드가 있는지 확인 한다.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>다시 종료했다가 켠다.(종료 했다 켜는건 만병통치)</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/.bash_profile
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>설치 확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">ls</span>
+</code></pre></div>    </div>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//결과
+            N/A
+node -&gt; stable <span class="o">(</span>-&gt; N/A<span class="o">)</span> <span class="o">(</span>default<span class="o">)</span>
+iojs -&gt; N/A <span class="o">(</span>default<span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="node-설치">Node 설치</h3>
+
+<ol>
+  <li>
+    <p>설치</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">install </span>6.10.1
+//가장 안정화된 버전이라고 한다.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">ls</span>
+</code></pre></div>    </div>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-&gt;      v6.10.1
+default -&gt; 6.10.1 (-&gt; v6.10.1)
+node -&gt; stable (-&gt; v6.10.1) (default)
+stable -&gt; 6.10 (-&gt; v6.10.1) (default)
+iojs -&gt; N/A (default)
+lts/* -&gt; lts/erbium (-&gt; N/A)
+lts/argon -&gt; v4.9.1 (-&gt; N/A)
+lts/boron -&gt; v6.17.1 (-&gt; N/A)
+lts/carbon -&gt; v8.17.0 (-&gt; N/A)
+lts/dubnium -&gt; v10.18.0 (-&gt; N/A)
+lts/erbium -&gt; v12.14.0 (-&gt; N/A)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>노드 버전 확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>node <span class="nt">-v</span>
+</code></pre></div>    </div>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v6.10.1
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="다른-node-버전-설치">다른 Node 버전 설치</h3>
+
+<ol>
+  <li>
+    <p>설치</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">install </span>12.1.0
+</code></pre></div>    </div>
+
+    <p>니꼴라스 따라서 같은 버전 설치함</p>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>👉 node -v
+v12.1.0
+👉 npm -v
+6.9.0
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>터미널 시작시 노드 기본 버전설정</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm <span class="nb">alias </span>default v12.14.0
+   
+//결과
+default -&gt; v12.14.0
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+:ET

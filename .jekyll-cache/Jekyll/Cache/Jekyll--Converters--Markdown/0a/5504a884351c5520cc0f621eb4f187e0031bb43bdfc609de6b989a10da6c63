@@ -1,0 +1,222 @@
+I"~a<h2 id="문제">문제</h2>
+
+<p>로봇 청소기가 주어졌을 때, 청소하는 영역의 개수를 구하는 프로그램을 작성하시오.</p>
+
+<p>로봇 청소기가 있는 장소는 N×M 크기의 직사각형으로 나타낼 수 있으며, 1×1크기의 정사각형 칸으로 나누어져 있다. 각각의 칸은 벽 또는 빈 칸이다. 청소기는 바라보는 방향이 있으며, 이 방향은 동, 서, 남, 북중 하나이다. 지도의 각 칸은 (r, c)로 나타낼 수 있고, r은 북쪽으로부터 떨어진 칸의 개수, c는 서쪽으로 부터 떨어진 칸의 개수이다.</p>
+
+<p>로봇 청소기는 다음과 같이 작동한다.</p>
+
+<ol>
+  <li>현재 위치를 청소한다.</li>
+  <li>현재 위치에서 현재 방향을 기준으로 왼쪽방향부터 차례대로 탐색을 진행한다.
+    <ol>
+      <li>왼쪽 방향에 아직 청소하지 않은 공간이 존재한다면, 그 방향으로 회전한 다음 한 칸을 전진하고 1번부터 진행한다.</li>
+      <li>왼쪽 방향에 청소할 공간이 없다면, 그 방향으로 회전하고 2번으로 돌아간다.</li>
+      <li>네 방향 모두 청소가 이미 되어있거나 벽인 경우에는, 바라보는 방향을 유지한 채로 한 칸 후진을 하고 2번으로 돌아간다.</li>
+      <li>네 방향 모두 청소가 이미 되어있거나 벽이면서, 뒤쪽 방향이 벽이라 후진도 할 수 없는 경우에는 작동을 멈춘다.</li>
+    </ol>
+  </li>
+</ol>
+
+<p>로봇 청소기는 이미 청소되어있는 칸을 또 청소하지 않으며, 벽을 통과할 수 없다.</p>
+
+<h3 id="입력">입력</h3>
+
+<p>첫째 줄에 세로 크기 N과 가로 크기 M이 주어진다. (3 ≤ N, M ≤ 50)</p>
+
+<p>둘째 줄에 로봇 청소기가 있는 칸의 좌표 (r, c)와 바라보는 방향 d가 주어진다. d가 0인 경우에는 북쪽을, 1인 경우에는 동쪽을, 2인 경우에는 남쪽을, 3인 경우에는 서쪽을 바라보고 있는 것이다.</p>
+
+<p>셋째 줄부터 N개의 줄에 장소의 상태가 북쪽부터 남쪽 순서대로, 각 줄은 서쪽부터 동쪽 순서대로 주어진다. 빈 칸은 0, 벽은 1로 주어진다. 장소의 모든 외곽은 벽이다.</p>
+
+<p>로봇 청소기가 있는 칸의 상태는 항상 빈 칸이다.</p>
+
+<h3 id="출력">출력</h3>
+
+<p>로봇 청소기가 청소하는 칸의 개수를 출력한다.</p>
+
+<h3 id="예제-입력-1">예제 입력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3 3
+1 1 0
+1 1 1
+1 0 1
+1 1 1
+</code></pre></div></div>
+
+<h3 id="예제-출력-1">예제 출력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1
+</code></pre></div></div>
+
+<h3 id="예제-입력-2">예제 입력 2</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>11 10
+7 4 0
+1 1 1 1 1 1 1 1 1 1
+1 0 0 0 0 0 0 0 0 1
+1 0 0 0 1 1 1 1 0 1
+1 0 0 1 1 0 0 0 0 1
+1 0 1 1 0 0 0 0 0 1
+1 0 0 0 0 0 0 0 0 1
+1 0 0 0 0 0 0 1 0 1
+1 0 0 0 0 0 1 1 0 1
+1 0 0 0 0 0 1 1 0 1
+1 0 0 0 0 0 0 0 0 1
+1 1 1 1 1 1 1 1 1 1
+</code></pre></div></div>
+
+<h3 id="예제-출력-2">예제 출력 2</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>57
+</code></pre></div></div>
+
+<h2 id="나의-코드">나의 코드</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">dx</span> <span class="o">=</span> <span class="o">{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">dy</span> <span class="o">=</span> <span class="o">{-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="no">N</span><span class="o">,</span> <span class="no">M</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">map</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="nc">String</span><span class="o">[]</span> <span class="no">NM</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+        <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="no">NM</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span><span class="c1">//세로</span>
+        <span class="no">M</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="no">NM</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span><span class="c1">//가로</span>
+
+        <span class="nc">String</span><span class="o">[]</span> <span class="n">input</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">startY</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+        <span class="kt">int</span> <span class="n">startX</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+        <span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="mi">2</span><span class="o">]);</span>
+        <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">M</span><span class="o">];</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="no">M</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">map</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">tmp</span><span class="o">[</span><span class="n">j</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="no">DFS</span><span class="o">(</span><span class="n">startX</span><span class="o">,</span> <span class="n">startY</span><span class="o">,</span> <span class="n">d</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">count</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kt">void</span> <span class="nf">DFS</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dir</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">map</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">dir</span> <span class="o">=</span> <span class="o">(</span><span class="n">dir</span> <span class="o">+</span> <span class="mi">3</span><span class="o">)</span> <span class="o">%</span> <span class="mi">4</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">nextX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">[</span><span class="n">dir</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">nextY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">[</span><span class="n">dir</span><span class="o">];</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">nextX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&gt;=</span> <span class="no">M</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&gt;=</span> <span class="no">N</span> <span class="o">||</span> <span class="n">map</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+            <span class="n">count</span><span class="o">++;</span>
+            <span class="no">DFS</span><span class="o">(</span><span class="n">nextX</span><span class="o">,</span> <span class="n">nextY</span><span class="o">,</span> <span class="n">dir</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kt">int</span> <span class="n">backDir</span> <span class="o">=</span> <span class="o">(</span><span class="n">dir</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">%</span> <span class="mi">4</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">backX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">[</span><span class="n">backDir</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">backY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">[</span><span class="n">backDir</span><span class="o">];</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">backX</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">backY</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">backX</span> <span class="o">&lt;</span> <span class="no">M</span> <span class="o">&amp;&amp;</span> <span class="n">backY</span> <span class="o">&lt;</span> <span class="no">N</span> <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="o">[</span><span class="n">backY</span><span class="o">][</span><span class="n">backX</span><span class="o">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="no">DFS</span><span class="o">(</span><span class="n">backX</span><span class="o">,</span> <span class="n">backY</span><span class="o">,</span> <span class="n">dir</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>최대한 문제 가이드대로 풀어주면 쉽다.</p>
+  </li>
+  <li>
+    <p>로봇 청소기의 작동 방법은</p>
+
+    <blockquote>
+      <ol>
+        <li>현재 위치를 청소한다.</li>
+        <li>현재 위치에서 현재 방향을 기준으로 왼쪽방향부터 차례대로 탐색을 진행한다.
+          <ol>
+            <li>왼쪽 방향에 아직 청소하지 않은 공간이 존재한다면, 그 방향으로 회전한 다음 한 칸을 전진하고 1번부터 진행한다.</li>
+            <li>왼쪽 방향에 청소할 공간이 없다면, 그 방향으로 회전하고 2번으로 돌아간다.</li>
+            <li>네 방향 모두 청소가 이미 되어있거나 벽인 경우에는, 바라보는 방향을 유지한 채로 한 칸 후진을 하고 2번으로 돌아간다.</li>
+            <li>네 방향 모두 청소가 이미 되어있거나 벽이면서, 뒤쪽 방향이 벽이라 후진도 할 수 없는 경우에는 작동을 멈춘다.</li>
+          </ol>
+        </li>
+      </ol>
+    </blockquote>
+  </li>
+  <li>
+    <p>이를 코드로 작성하면</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">static</span> <span class="kt">void</span> <span class="nf">DFS</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dir</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">map</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span><span class="c1">//1. 현재 위치를 청소한다.</span>
+  
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span><span class="c1">//2. 현재위치에서 현재 방향을 기준으로 왼쪽방향부터 차례대로 탐색을 진행한다.</span>
+            <span class="n">dir</span> <span class="o">=</span> <span class="o">(</span><span class="n">dir</span> <span class="o">+</span> <span class="mi">3</span><span class="o">)</span> <span class="o">%</span> <span class="mi">4</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">nextX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">[</span><span class="n">dir</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">nextY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">[</span><span class="n">dir</span><span class="o">];</span>
+  
+            <span class="k">if</span> <span class="o">(</span><span class="n">nextX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextX</span> <span class="o">&gt;=</span> <span class="no">M</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&gt;=</span> <span class="no">N</span> <span class="o">||</span> <span class="n">map</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span><span class="c1">//b. 왼쪽 방향에 청소할 공간이 없다면, 그 방향으로 회전하고 2번으로 돌아간다.</span>
+            <span class="n">count</span><span class="o">++;</span> <span class="c1">//a.왼쪽 방향에서 아직 청소하지 않은 공간이 존재한다면, 그 방향으로 회전한 다음 한 칸 전진하고 1번부터 진행한다.</span>
+            <span class="no">DFS</span><span class="o">(</span><span class="n">nextX</span><span class="o">,</span> <span class="n">nextY</span><span class="o">,</span> <span class="n">dir</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span><span class="c1">//여기서 return안하면 한 다른경로가 시작되기 때문에 여기서 끝 ‼️</span>
+        <span class="o">}</span>
+  
+        <span class="kt">int</span> <span class="n">backDir</span> <span class="o">=</span> <span class="o">(</span><span class="n">dir</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">%</span> <span class="mi">4</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">backX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">[</span><span class="n">backDir</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">backY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">[</span><span class="n">backDir</span><span class="o">];</span>
+  			<span class="c1">//c. 네 방향 모두 청소가 이미 되어있거나 벽인 경우에는, 바라보는 방향을 유지한 채로 한 칸 후진을 하고 2번으로 돌아간다.</span>
+  			<span class="c1">//d. 네 방향 모두 청소가 이미 되어있거나 벽이면서, 뒤쪽 방향이 벽이라 후진도 할 수 없는 경우에는 작동을 멈춘다.</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">backX</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">backY</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">backX</span> <span class="o">&lt;</span> <span class="no">M</span> <span class="o">&amp;&amp;</span> <span class="n">backY</span> <span class="o">&lt;</span> <span class="no">N</span> <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="o">[</span><span class="n">backY</span><span class="o">][</span><span class="n">backX</span><span class="o">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="no">DFS</span><span class="o">(</span><span class="n">backX</span><span class="o">,</span> <span class="n">backY</span><span class="o">,</span> <span class="n">dir</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>여기서 방향을 계산하는게 처음에는 헷갈렸어서 동, 서, 남, 북 일때 방향을 dx, dy를 다 주었었다. 하지만 그러니까 저 배열이 엄청 길어졌고 값이 0~4사이이기 때문에 계산을 해보았다.</p>
+
+    <blockquote>
+      <p>먼저, 북쪽(0) / 동쪽(1) / 남쪽(2) / 서쪽(3) 으로 설정이 되어있다.</p>
+
+      <p>북쪽의 경우 왼쪽부터 보면, 서-&gt;남-&gt;동-&gt;북, 3-&gt;2-&gt;1-&gt;0이 된다.</p>
+
+      <p>다음 값은 자기보다 1씩 작은 값이 되는데 그 범위가 0-3안이다. 그렇기 때문에 자기보다 한 값작은 것을 하려면 +3을 한다음 %4를 하면 된다.</p>
+
+      <p>(+4를 하면 자기 자신이 될 것이고, +2하면 자기보다 2작은 값이 될 것이다. )</p>
+
+      <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dir</span> <span class="o">=</span> <span class="o">(</span><span class="n">dir</span> <span class="o">+</span> <span class="mi">3</span><span class="o">)</span> <span class="o">%</span> <span class="mi">4</span><span class="o">;</span>
+<span class="c1">//이런식으로 회전할 때 방향을 지정해 주었다.</span>
+</code></pre></div>      </div>
+    </blockquote>
+  </li>
+  <li>
+    <p>뒤를 보는 방향도 위의 방법과 마찬가지로,</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">backDir</span> <span class="o">=</span> <span class="o">(</span><span class="n">dir</span> <span class="o">+</span> <span class="mi">2</span><span class="o">)</span> <span class="o">%</span> <span class="mi">4</span><span class="o">;</span>
+</code></pre></div>    </div>
+
+    <p>이런식으로 해주었다.</p>
+  </li>
+  <li>
+    <p>전체를 DFS탐색을 하는 상황이 발생했다. 이는 return을 해주지 않아서 그랬다는 것을 알게 되었다.</p>
+
+    <p>로봇청소기는 한 경로만으로만 간다. 반면 일반적인 전체탐색 DFS는 한 경로가 끝이 나면 그 경로의 시작점?에서 다른 갈래가 시작되기 때문에 return을 해주었다.</p>
+  </li>
+</ul>
+
+<h2 id="느낀점">느낀점</h2>
+
+<p>진짜 이 문제는 문제대로만 풀면 답이 나오는 문제였다.ㅋㅋ나는 이런 문제를 한 세번 정도 갈아엎고 풀었다… 풀수 있을 것 같으면서 계속 답이 안나오고,,,! 그래서 오래 걸린것 같다ㅠㅠ 근데 막상 풀고나니 진짜 간단한 문제였던..이 문제는 한 다섯번정도 풀어봐야겠다 ! 이 문제는 카카오 괄호? 문제랑 비슷한거 같다. 오랜만에그것도 다시 풀어봐야겠다 !</p>
+
+<ul>
+  <li>문제: https://www.acmicpc.net/problem/14503</li>
+  <li>저장소: https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/3.SWEA/Q_14503_로봇청소기.java</li>
+</ul>
+:ET

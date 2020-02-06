@@ -1,0 +1,719 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.18.1 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Study]NVM &amp; Node 설치 기록 - HELLO-CHAEWON</title>
+<meta name="description" content="#NVM #node #node.js ">
+
+
+  <meta name="author" content="Yoo Chaewon">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="HELLO-CHAEWON">
+<meta property="og:title" content="[Study]NVM &amp; Node 설치 기록">
+<meta property="og:url" content="http://localhost:4000/study/Study-NVM&Node%EC%84%A4%EC%B9%98%EB%B0%A9%EB%B2%95/">
+
+
+  <meta property="og:description" content="#NVM #node #node.js ">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-01-07T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/study/Study-NVM&Node%EC%84%A4%EC%B9%98%EB%B0%A9%EB%B2%95/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Yoo Chaewon",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="HELLO-CHAEWON Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          HELLO-CHAEWON
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/" >Quick-Start Guide</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/profile.png" alt="Yoo Chaewon" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Yoo Chaewon</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>신나고 재밌게🤪</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Republic of Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:chaewon.dev@gamil.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+          
+        
+          
+            <li><a href="https://github.com/yoo-chaewon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Study]NVM &amp; Node 설치 기록">
+    <meta itemprop="description" content="#NVM #node #node.js">
+    <meta itemprop="datePublished" content="2020-01-07T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">[Study]NVM &amp; Node 설치 기록
+</h1>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Contents</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#-설치할-것">📌 설치할 것</a></li>
+  <li><a href="#npm설치">NPM설치</a></li>
+  <li><a href="#node-설치">Node 설치</a></li>
+  <li><a href="#다른-node-버전-설치">다른 Node 버전 설치</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>[React Native로 날씨앱 만들기]를 하기에 앞서 먼저 개발 환경을 설치하고자 한다.</p>
+
+<h3 id="-설치할-것">📌 설치할 것</h3>
+
+<ul>
+  <li>
+    <p><strong>Node.js</strong> -&gt; 10이상</p>
+  </li>
+  <li>
+    <p><strong>npn</strong>(Node Version Manager) -&gt; 6이상</p>
+  </li>
+  <li>
+    <p><strong>시뮬레이터</strong> -&gt; 안드로이드 스튜디오, xcode</p>
+  </li>
+  <li>
+    <p>iOS, Android 앱 <strong>엑스포</strong> <strong>폰</strong>에 설치</p>
+
+    <p>https://apps.apple.com/kr/app/expo-client/id982107779</p>
+
+    <p>👉 iOS, 안드로이드 앱 expo가 테스트 할 수 있는 유일한 방법(휴대폰에서)</p>
+  </li>
+  <li>
+    <p>‼️설치 완료 후</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> expo-cli
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="npm설치">NPM설치</h3>
+
+<p>🧐참고로 NPM은 Node Version Manager의 줄임말 !</p>
+
+<ol>
+  <li>
+    <p>설치</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>curl <span class="nt">-o-</span> https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">ls</span>
+   
+<span class="nt">-bash</span>: nvm: <span class="nb">command </span>not found //이렇게 뜬다.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>터미널을 종료했다가 다시 켠다.</p>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>vi ~/.bash_profile
+</code></pre></div>    </div>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">NVM_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.nvm"</span>
+<span class="o">[</span> <span class="nt">-s</span> <span class="s2">"</span><span class="nv">$NVM_DIR</span><span class="s2">/nvm.sh"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">.</span> <span class="s2">"</span><span class="nv">$NVM_DIR</span><span class="s2">/nvm.sh"</span> <span class="c"># This loads nvm</span>
+//이 코드가 있는지 확인 한다.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>다시 종료했다가 켠다.(종료 했다 켜는건 만병통치)</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/.bash_profile
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>설치 확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">ls</span>
+</code></pre></div>    </div>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//결과
+            N/A
+node -&gt; stable <span class="o">(</span>-&gt; N/A<span class="o">)</span> <span class="o">(</span>default<span class="o">)</span>
+iojs -&gt; N/A <span class="o">(</span>default<span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="node-설치">Node 설치</h3>
+
+<ol>
+  <li>
+    <p>설치</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">install </span>6.10.1
+//가장 안정화된 버전이라고 한다.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">ls</span>
+</code></pre></div>    </div>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-&gt;      v6.10.1
+default -&gt; 6.10.1 (-&gt; v6.10.1)
+node -&gt; stable (-&gt; v6.10.1) (default)
+stable -&gt; 6.10 (-&gt; v6.10.1) (default)
+iojs -&gt; N/A (default)
+lts/* -&gt; lts/erbium (-&gt; N/A)
+lts/argon -&gt; v4.9.1 (-&gt; N/A)
+lts/boron -&gt; v6.17.1 (-&gt; N/A)
+lts/carbon -&gt; v8.17.0 (-&gt; N/A)
+lts/dubnium -&gt; v10.18.0 (-&gt; N/A)
+lts/erbium -&gt; v12.14.0 (-&gt; N/A)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>노드 버전 확인</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>node <span class="nt">-v</span>
+</code></pre></div>    </div>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v6.10.1
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="다른-node-버전-설치">다른 Node 버전 설치</h3>
+
+<ol>
+  <li>
+    <p>설치</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nvm <span class="nb">install </span>12.1.0
+</code></pre></div>    </div>
+
+    <p>니꼴라스 따라서 같은 버전 설치함</p>
+  </li>
+  <li>
+    <p>확인</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>👉 node -v
+v12.1.0
+👉 npm -v
+6.9.0
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>터미널 시작시 노드 기본 버전설정</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvm <span class="nb">alias </span>default v12.14.0
+   
+//결과
+default -&gt; v12.14.0
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#node-js" class="page__taxonomy-item" rel="tag">node.js</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#nvm" class="page__taxonomy-item" rel="tag">NVM</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#study" class="page__taxonomy-item" rel="tag">Study</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#study" class="page__taxonomy-item" rel="tag">Study</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-01-07T00:00:00+09:00">January 7, 2020</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BStudy%5DNVM+%26+Node+%EC%84%A4%EC%B9%98+%EA%B8%B0%EB%A1%9D%20http%3A%2F%2Flocalhost%3A4000%2Fstudy%2FStudy-NVM%26Node%25EC%2584%25A4%25EC%25B9%2598%25EB%25B0%25A9%25EB%25B2%2595%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fstudy%2FStudy-NVM%26Node%25EC%2584%25A4%25EC%25B9%2598%25EB%25B0%25A9%25EB%25B2%2595%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fstudy%2FStudy-NVM%26Node%25EC%2584%25A4%25EC%25B9%2598%25EB%25B0%25A9%25EB%25B2%2595%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/algorithm/Algorithms-BOJ14890_%EA%B2%BD%EC%82%AC%EB%A1%9C/" class="pagination--pager" title="[ALGORITHM]BOJ14890-경사로
+">이전</a>
+    
+    
+      <a href="/algorithm/Algorithms-BOJ1541_%EC%9E%83%EC%96%B4%EB%B2%84%EB%A6%B0%EA%B4%84%ED%98%B8/" class="pagination--pager" title="[ALGORITHM]BOJ1541-잃어버린괄호
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/Algorithms-BOJ5052_%EC%A0%84%ED%99%94%EB%B2%88%ED%98%B8%EB%AA%A9%EB%A1%9D/" rel="permalink">[ALGORITHM]BOJ5052_전화번호목록
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">#BOJ #Hash
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/Algorithms-Programmers_DFS-BFS_%ED%83%80%EA%B2%9F%EB%84%98%EB%B2%84/" rel="permalink">[ALGORITHM]PROGRAMMERS_DFS/BFS_타겟넘버
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">#PROGRAMMERS #DFS
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/Algorithms-BOJ14888_%EC%97%B0%EC%82%B0%EC%9E%90%EB%81%BC%EC%9B%8C%EB%84%A3%EA%B8%B0/" rel="permalink">[ALGORITHM]BOJ14888-연산자끼워넣기
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">#BOJ #DFS #삼성코테
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/Algorithms-BOJ6603_%EB%A1%9C%EB%98%90/" rel="permalink">[ALGORITHM]BOJ6603-로또
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">#BOJ #DFS
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form onsubmit="return googleCustomSearchExecute();" id="cse-search-box-form-id">
+    <label class="sr-only" for="cse-search-input-box-id">
+      Enter your search term...
+    </label>
+    <input type="search" id="cse-search-input-box-id" class="search-input" tabindex="-1" placeholder="검색어를 입력하세요..." />
+  </form>
+  <div id="results" class="results">
+    <gcse:searchresults-only></gcse:searchresults-only>
+  </div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://github.com/yoo-chaewon" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 Yoo Chaewon. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+<script>
+  (function () {
+    var cx = '';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+
+  function googleCustomSearchExecute() {
+    var input = document.getElementById('cse-search-input-box-id');
+    var element = google.search.cse.element.getElement('searchresults-only0');
+    if (input.value == '') {
+      element.clearAllResults();
+    } else {
+      element.execute(input.value);
+    }
+    return false;
+  }
+
+  
+</script>
+
+
+
+
+
+
+
+  </body>
+</html>

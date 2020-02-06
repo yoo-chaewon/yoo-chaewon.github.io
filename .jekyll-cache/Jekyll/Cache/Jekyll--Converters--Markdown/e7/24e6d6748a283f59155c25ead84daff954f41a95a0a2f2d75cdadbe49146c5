@@ -1,0 +1,149 @@
+I"N.<h2 id="문제">문제</h2>
+
+<p>여러 개의 쇠막대기를 레이저로 절단하려고 한다. 효율적인 작업을 위해서 쇠막대기를 아래에서 위로 겹쳐 놓고, 레이저를 위에서 수직으로 발사하여 쇠막대기들을 자른다. 쇠막대기와 레이저의 배치는 다음 조건을 만족한다.</p>
+
+<ul>
+  <li>쇠막대기는 자신보다 긴 쇠막대기 위에만 놓일 수 있다. - 쇠막대기를 다른 쇠막대기 위에 놓는 경우 완전히 포함되도록 놓되, 끝점은 겹치지 않도록 놓는다.</li>
+  <li>각 쇠막대기를 자르는 레이저는 적어도 하나 존재한다.</li>
+  <li>레이저는 어떤 쇠막대기의 양 끝점과도 겹치지 않는다.</li>
+</ul>
+
+<p>아래 그림은 위 조건을 만족하는 예를 보여준다. 수평으로 그려진 굵은 실선은 쇠막대기이고, 점은 레이저의 위치, 수직으로 그려진 점선 화살표는 레이저의 발사 방향이다.</p>
+
+<p><img src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/problem/10799/1.png" alt="img" /></p>
+
+<p>이러한 레이저와 쇠막대기의 배치는 다음과 같이 괄호를 이용하여 왼쪽부터 순서대로 표현할 수 있다.</p>
+
+<ol>
+  <li>레이저는 여는 괄호와 닫는 괄호의 인접한 쌍 ‘( ) ’ 으로 표현된다. 또한, 모든 ‘( ) ’는 반드시 레이저를 표현한다.</li>
+  <li>쇠막대기의 왼쪽 끝은 여는 괄호 ‘ ( ’ 로, 오른쪽 끝은 닫힌 괄호 ‘) ’ 로 표현된다.</li>
+</ol>
+
+<p>위 예의 괄호 표현은 그림 위에 주어져 있다.</p>
+
+<p>쇠막대기는 레이저에 의해 몇 개의 조각으로 잘려지는데, 위 예에서 가장 위에 있는 두 개의 쇠막대기는 각각 3개와 2개의 조각으로 잘려지고, 이와 같은 방식으로 주어진 쇠막대기들은 총 17개의 조각으로 잘려진다.</p>
+
+<p>쇠막대기와 레이저의 배치를 나타내는 괄호 표현이 주어졌을 때, 잘려진 쇠막대기 조각의 총 개수를 구하는 프로그램을 작성하시오.</p>
+
+<h3 id="입력">입력</h3>
+
+<p>한 줄에 쇠막대기와 레이저의 배치를 나타내는 괄호 표현이 공백없이 주어진다. 괄호 문자의 개수는 최대 100,000이다.</p>
+
+<h3 id="출력">출력</h3>
+
+<p>잘려진 조각의 총 개수를 나타내는 정수를 한 줄에 출력한다.</p>
+
+<h3 id="예제-입력-1">예제 입력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>()(((()())(())()))(())
+</code></pre></div></div>
+
+<h3 id="예제-출력-1">예제 출력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>17
+</code></pre></div></div>
+
+<h3 id="예제-입력-2">예제 입력 2</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(((()(()()))(())()))(()())
+</code></pre></div></div>
+
+<h3 id="예제-출력-2">예제 출력 2</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>24
+</code></pre></div></div>
+
+<h2 id="나의-코드">나의 코드</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Stack</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="nc">String</span> <span class="n">input</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+        <span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Stack</span><span class="o">&lt;&gt;();</span>
+        <span class="kt">int</span> <span class="n">answer</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">char</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">input</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="k">switch</span> <span class="o">(</span><span class="n">cur</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="sc">'('</span><span class="o">:</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(-</span><span class="mi">1</span><span class="o">);</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="k">case</span> <span class="sc">')'</span><span class="o">:</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">peek</span><span class="o">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span><span class="c1">//'('</span>
+                        <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+                        <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                        <span class="k">while</span> <span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">peek</span><span class="o">()</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">tmp</span> <span class="o">+=</span> <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+                        <span class="o">}</span>
+                        <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+                        <span class="n">answer</span> <span class="o">+=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+                        <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">tmp</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">answer</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong>()</strong> 👈 이거 한개가 레이저다.</p>
+
+    <ul>
+      <li>레이저가 2개 있다면 1개의 막대기는 2개로 잘린다.</li>
+      <li>레이저가 2개 있다면 1개의 막대기는 3개로 잘린다.</li>
+      <li>즉, 한 막대기가 잘리는 갯수는 <strong>레이저 갯수 + 1</strong> 이다.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>(</strong> 인경우에는 스택에 넣었다. 👉 Stack<Integer> 로 했으므로, **(** 대신 -1을 넣어 주었다.</Integer></p>
+  </li>
+  <li>
+    <p><strong>)</strong>인 경우에는 앞에 바로 <strong>(</strong> 이 있을 때는 <strong>레이저</strong>로 레이저 <strong>1</strong>를 스택에 넣었다.</p>
+
+    <ul>
+      <li>
+        <p>만약 앞에 숫자가 있을 때는, 이 막대기가 레이저로 잘려야 할 시간이다.</p>
+      </li>
+      <li>
+        <p>레이저들을 다 pop해서 레이저 갯수 + 1을 answer에 저장해 준다.</p>
+      </li>
+      <li>
+        <p>그리고 이 레이저 값들은 다시 스택에 넣어준다.</p>
+      </li>
+      <li>
+        <p>이에해당하는 코드는</p>
+      </li>
+      <li>
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">peek</span><span class="o">()</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">tmp</span> <span class="o">+=</span> <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span> <span class="c1">// ( 👈이게 아닐때까지 값을 꺼내서 tmp에 합한다. 즉 이는 레이저의 갯수가 된다.</span>
+<span class="o">}</span>
+<span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span><span class="c1">//마지막 ( 까지 빼준다.</span>
+<span class="n">answer</span> <span class="o">+=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// 결과에 레이저 갯수 + 1을 해준다.</span>
+<span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">tmp</span><span class="o">);</span> <span class="c1">//이 레이저들을 다시 스택에 넣어준다.</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="느낀점">느낀점</h5>
+
+<p>프로그래머스에서 풀었던 것인데 뭔가 다시 새롭게 풀었다. 풀고 보니까 코드가 아예 똑같아서 신기했닼ㅋㅋㅋ아무튼 오랜만에 블로그 쓸수 있어서 기분이 좋다~</p>
+
+<blockquote>
+  <p>문제 : https://www.acmicpc.net/problem/10799</p>
+
+  <p>저장소 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/1.BOJ/Q_10799_쇠막대기.java</p>
+</blockquote>
+
+:ET
