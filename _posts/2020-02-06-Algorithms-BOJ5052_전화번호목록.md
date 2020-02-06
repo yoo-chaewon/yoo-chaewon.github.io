@@ -222,21 +222,80 @@ public class Main {
   }
   ```
 
+  ```
+  //input
+  91125426
+  12340
+  123440
+  911
   
+  //String 정렬 👉 사전순 정렬
+  12340
+  123440
+  911
+  91125426
+  
+  12340과 123440비교 -> ❌
+  123440과 911비교 -> ❌
+  911과 91123426비교 -> ⭕️
+  이런식으로 찾는 것이다.
+  ```
 
-
+  
 
 #### 메소드 비교
 
-> equal()
+내가 이것저거 해본 메소드 비교이다.
+
+> ✔️ equals(): 문자열 비교 메소드이다. 양 쪽에 있는 내용을 비교한 값을 true/false로 반환한다.
 >
-> contain()
+> - 이 문제에서 equals를 사용하려면, 
 >
-> startWith()
+>   ```java
+>   String str1 = "911";
+>   String str2 = "91125426";
+>   
+>   if (str1.equals(str2.substring(0,str1.length()))) System.out.println("YES");
+>   else System.out.println("NO");
+>   ```
+>
+>   이런식으로 사용해야 한다. 하지만 문자열의 길이의 차이로 오류가 날 수 있으니 코드를 좀 더 추가해야한다 !
+>
+>   
+>
+> ✔️ contains()
+>
+> - 이 문제에서 contains()를 사용하려면,
+>
+>   ```java
+>   String str1 = "911";
+>   String str2 = "91125426";
+>   
+>   if (str1.contains(str2.substring(0,str1.length()))) System.out.println("YES");
+>   else System.out.println("NO");
+>   ```
+>
+>   
+>
+> ✔️ startsWith()
+>
+> - 내가 이 문제에서 이것을 사용한 이유는 문자열 범위를 정해주지 않아도 된다는 이유에서 이것을 사용하였다.
+>
+> - 문자열의 시작부분봐 지정한 문자열이 일치하는지 확인해준다.
+>
+> - ```java
+>   String str1 = "911";
+>   String str2 = "91125426";
+>   
+>   if (str2.startsWith(str1)) System.out.println("YES");
+>   else System.out.println("NO");
+>   ```
+>
+>   
 
 ##### 느낀점
 
-> 문제 : https://programmers.co.kr/learn/courses/30/lessons/43165#
+> 문제 : https://www.acmicpc.net/problem/5052
 >
-> 저장소 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/2.PROGRAMMERS/DFS:BFS_타겟넘버.java
+> 저장소 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/1.BOJ/Q_5052_전화번호목록.java
 
