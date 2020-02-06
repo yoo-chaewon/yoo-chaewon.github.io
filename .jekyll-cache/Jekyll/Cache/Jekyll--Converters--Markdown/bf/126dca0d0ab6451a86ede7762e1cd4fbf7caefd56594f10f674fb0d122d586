@@ -1,0 +1,234 @@
+I"�L<h2 id="문제">문제</h2>
+
+<p>전화번호 목록이 주어진다. 이때, 이 목록이 일관성이 있는지 없는지를 구하는 프로그램을 작성하시오.</p>
+
+<p>전화번호 목록이 일관성을 유지하려면, 한 번호가 다른 번호의 접두어인 경우가 없어야 한다.</p>
+
+<p>예를 들어, 전화번호 목록이 아래와 같은 경우를 생각해보자</p>
+
+<ul>
+  <li>긴급전화: 911</li>
+  <li>상근: 97 625 999</li>
+  <li>선영: 91 12 54 26</li>
+</ul>
+
+<p>이 경우에 선영이에게 전화를 걸 수 있는 방법이 없다. 전화기를 들고 선영이 번호의 처음 세 자리를 누르는 순간 바로 긴급전화가 걸리기 때문이다. 따라서, 이 목록은 일관성이 없는 목록이다.</p>
+
+<h3 id="입력">입력</h3>
+
+<p>첫째 줄에 테스트 케이스의 개수 t가 주어진다. (1 ≤ t ≤ 50) 각 테스트 케이스의 첫째 줄에는 전화번호의 수 n이 주어진다. (1 ≤ n ≤ 10000) 다음 n개의 줄에는 목록에 포함되어 있는 전화번호가 하나씩 주어진다. 전화번호의 길이는 길어야 10자리이며, 목록에 있는 두 전화번호가 같은 경우는 없다.</p>
+
+<h3 id="출력">출력</h3>
+
+<p>각 테스트 케이스에 대해서, 일관성 있는 목록인 경우에는 YES, 아닌 경우에는 NO를 출력한다.</p>
+
+<h3 id="예제-입력-1">예제 입력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2
+3
+911
+97625999
+91125426
+5
+113
+12340
+123440
+12345
+98346
+</code></pre></div></div>
+
+<h3 id="예제-출력-1">예제 출력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NO
+YES
+</code></pre></div></div>
+
+<p>#####</p>
+
+<h2 id="나의-코드">나의 코드</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="n">t</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">String</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                 <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="nc">CheckContain</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">size</span><span class="o">))</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"YES"</span><span class="o">);</span>
+            <span class="k">else</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"NO"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">CheckContain</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">){</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">].</span><span class="na">startsWith</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">||</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">startsWith</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">])){</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong>시간 초과</strong>가 난 코드이다.</p>
+  </li>
+  <li>
+    <p>모든 단어들을 일일이 다 비교를 했다.</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">CheckContain</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">){</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">].</span><span class="na">startsWith</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">||</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">startsWith</span><span class="o">(</span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">])){</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>예를들면</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>911
+97625999
+91125426
+  
+인 경우,
+911 과 97625999 비교, 911와 91125426 비교.
+97625999와 91125426를 비교한다.
+</code></pre></div>    </div>
+
+    <p>이 경우 아무래도 시간복잡도가 높아 시간초과가 난거 같다.</p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+
+        <span class="k">while</span> <span class="o">(</span><span class="n">t</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">String</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">arr</span><span class="o">);</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="nc">CheckContain</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="n">size</span><span class="o">))</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"YES"</span><span class="o">);</span>
+            <span class="k">else</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"NO"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">CheckContain</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">){</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="nc">String</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="nc">String</span> <span class="n">next</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">cur</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">next</span><span class="o">)</span> <span class="o">||</span> <span class="n">next</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">cur</span><span class="o">))</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>다시 짜본 코드는 이러하다.</p>
+  </li>
+  <li>
+    <p>일일이 비교를 하는 것이 아니라, 비교를 하기 전에 <strong>사전순으로 정렬</strong>을 하였다.</p>
+  </li>
+  <li>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//input
+91125426
+12340
+123440
+911
+  
+//String 정렬 👉 사전순 정렬
+12340
+123440
+911
+91125426
+  
+//int 정렬 👉 정수의 크기 오름차순
+911
+12340
+123440
+91125426
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>사전순으로 정렬을 하게 되면, 다음 것만 확인을 하면 된다.</p>
+  </li>
+  <li>
+    <p>따라서,</p>
+  </li>
+  <li>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">CheckContain</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">arr</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">){</span>
+  <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+    <span class="nc">String</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="nc">String</span> <span class="n">next</span> <span class="o">=</span> <span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cur</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">next</span><span class="o">)</span> <span class="o">||</span> <span class="n">next</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">cur</span><span class="o">))</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//input
+91125426
+12340
+123440
+911
+  
+//String 정렬 👉 사전순 정렬
+12340
+123440
+911
+91125426
+  
+12340과 123440비교 -&gt; ❌
+123440과 911비교 -&gt; ❌
+911과 91123426비교 -&gt; ⭕️
+이런식으로 찾는 것이다.
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="메소드-비교">메소드 비교</h4>
+
+<p>내가 이것저거 해본 메소드 비교이다.</p>
+
+<blockquote>
+  <p>equals(): 문자열 비교 메소드이다. 양 쪽에 있는 내용을 비교한 값을 true/false로 반환한다.</p>
+
+  <p>contain()</p>
+
+  <p>startWith()</p>
+</blockquote>
+
+<h5 id="느낀점">느낀점</h5>
+
+<blockquote>
+  <p>문제 : https://programmers.co.kr/learn/courses/30/lessons/43165#</p>
+
+  <p>저장소 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/2.PROGRAMMERS/DFS:BFS_타겟넘버.java</p>
+</blockquote>
+
+:ET
