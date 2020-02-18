@@ -135,11 +135,39 @@ class Solution {
 
   이때, **앞부터 보고 뒤를 봐야한다**.
 
-  이유는 **앞에서부터 보기 때문에** 만약에 앞에 없는 것은, 그 아이는 앞으로 어디에서도 받아 올 수 없는 것이다.
+  이유는 **for문이 앞에서부터 보기 때문에** 만약에 앞에 없는 것은, 그 아이는 앞으로 어디에서도 받아 올 수 없는 것이다.
 
-  그러니까 앞에아이부터 주고, 뒤에 아이는 어차피 뒤에서 받아올 가능성 조차 있는 애니까 일딴 앞사람 부터 준다.
+  그러니까 앞에 아이부터 주고, 뒤에 아이는 어차피 뒤에서 받아올 가능성 조차 있는 애니까 일딴 앞사람 부터 준다.
 
   👉 이 이유 생각 해내는데 진짜 힘들었다........
+
+
+
+## 코드 Ver 2
+
+```java
+class Solution {
+    public static int solution(int n, int[] lost, int[] reserve) {
+        int answer = 0;
+        int[] arr = new int[n];
+
+        for (int i = 0; i < lost.length; i++) arr[lost[i] - 1]--;
+        for (int i = 0; i < reserve.length; i++) arr[reserve[i] - 1]++;
+
+        for (int i = 0; i < n - 1; i++) {
+            if (arr[i] + arr[i + 1] == 0) {
+                arr[i] = 0;
+                arr[i + 1] = 0;
+            }
+        }
+
+        for (int a : arr) if (a == 0) answer++;
+        return answer;
+    }
+}
+```
+
+- 덧셈을 이용해서 하면, 앞으로 뒤로 따로 비교하지 않아도 앞뒤 구별 없이 비교가 가능하다.(희수의 방법)
 
 
 
@@ -147,5 +175,9 @@ class Solution {
 
 > 문제 : https://programmers.co.kr/learn/courses/30/lessons/42862
 >
-> 저장소 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/2.PROGRAMMERS/고득점Kit/Greedy_체육복.java
+> 저장소 
+>
+> - https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/2.PROGRAMMERS/고득점Kit/Greedy_체육복.java
+>
+> - https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/2.PROGRAMMERS/with%20Study/Greedy_체육복_ver2.java
 
