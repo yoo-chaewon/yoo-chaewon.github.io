@@ -91,7 +91,7 @@ class Solution {
 
 
 
-## 코드 ver 2-비교
+## 코드 ver 2-뒤에 문자 비교
 
 ```java
 import java.util.ArrayList;
@@ -169,21 +169,107 @@ class Solution {
 
 
 
-## 코드 ver 3 - 스터디 후 업뎃 예정
+## 코드 ver 3 - 범위정해줘서 가장 큰 수 뽑음
 
+```java
+class Solution {
+    public String solution(String number, int k) {
+        StringBuilder answer = new StringBuilder();
+        int startIndex = 0;
+        int length = number.length() - k;
+        int endIndex = number.length()-length+1;
+
+        for (int i = 0 ; i < number.length()-k; i++){
+            int max = Integer.MIN_VALUE;
+            int index = 0;
+            for (int j = startIndex; j < endIndex+i; j++){
+                if (max < number.charAt(j)-'0'){
+                    max = number.charAt(j)-'0';
+                    index = j;
+                }
+            }
+            answer.append(max);
+            startIndex = index+1;
+        }
+        return answer.toString();
+    }
+}
 ```
-갸햑! 100점이 목표다 난!
-```
 
+- 두번째 방법에서는 숫자들을 제거하면서 가장 큰 수를 뽑았다면, 이 문제에서는 범위 내에서 가장 큰 숫자들을 뽑는 방법이다 (새로운 발상이다 👉 아이디어 from 미진)
 
+- 예시를 들면서 설명을 하겠다.
+
+  > 입력: 4177252841 / k : 4
+  >
+  > 라면, 만들어야 하는 문자의 길이는 number.legth - 4 = 6이다.
+  >
+  > 따라서, 
+  >
+  > ```java
+  > for (int i = 0 ; i < number.length()-k; i++){//이만큼 반복한다.
+  > }
+  > ```
+
+- 문자를 뽑는 기준은,(설명 어려워서 막막)
+
+  > 4177252841 에서 우선 1개를 뽑아야한다. 총 6개를 뽑아야 하기 때문에 가장 큰것을 8을 뽑는다면 그 다음꺼에서 뽑을 게 없어진다. 따라서 
+  >
+  > startIndex와 endIndex로 범위를 정해준다. 
+  >
+  > 처음에는 0에서부터 number.length - 뽑아야할길이 +1이다. 즉 (0 <= x < 5) 다.
+
+- | 0 <= x < 5  | Max: 7  , index:2     |
+  | ----------- | --------------------- |
+  | 3 <= x < 6  | Max: **7**  , index:3 |
+  | 4 <= x < 7  | Max: **5**  , index:5 |
+  | 6 <= x < 8  | Max: **8**  , index:7 |
+  | 8 <= x < 9  | Max: **4**  , index:8 |
+  | 9 <= x < 10 | Max: **1**  , index:9 |
+
+  코드를 보면
+
+  ```java
+  class Solution {
+      public String solution(String number, int k) {
+          StringBuilder answer = new StringBuilder();
+          int startIndex = 0;
+          int length = number.length() - k;
+          int endIndex = number.length()-length+1;
+  
+          for (int i = 0 ; i < number.length()-k; i++){
+              int max = Integer.MIN_VALUE;
+              int index = 0;
+            
+            //endIndex+i인 이유는 한글자씩 선택될때마다 범위가 줄기 때문이다.
+              for (int j = startIndex; j < endIndex+i; j++){ 
+                //범위내에서 가장 큰 수와 그 수의 인덱스 저장한다.
+                  if (max < number.charAt(j)-'0'){
+                      max = number.charAt(j)-'0';
+                      index = j;
+                  }
+              }
+              answer.append(max);
+              startIndex = index+1;//다음 범위의 시작은 가장큰수 뽑은거 다음부터다!
+          }
+          return answer.toString();
+      }
+  }
+  ```
+
+  
 
 ##### 느낀점
 
+> 스터디를 하다보니 다양한 방법들로 풀 수 있어서 좋았다. 도대체 난 왜 시간초과가 나는지 몰랐는데 새로운 아이디어로 푸니 시간초과가 사라졌다. 뿌듯했다.
+>
+> ‼️ 그리고 String + 을 하면 매번 내부에서 StringBuilder 가 불린다고 한다. 그러니까 한번 StringBuilder를 생성해서 append로 붙여주면, 나중에 toString해서 한번만 해도 된다 .!
+>
 > 문제 : https://programmers.co.kr/learn/courses/30/lessons/42883
 >
 > 저장소 
 >
 > - https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/2.PROGRAMMERS/with%20Study/Greedy_큰수만들기_순열_시간초과.java
->
 > - https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/2.PROGRAMMERS/with%20Study/Greedy_큰수만들기_91.7_시간초과.java
+> - https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/2.PROGRAMMERS/with%20Study/Greedy_큰수만들기.java
 
