@@ -1,6 +1,6 @@
 ---
 
-title:  "[ALGORITHM]PROGRAMMERS/Sort-H-가장큰수"
+title:  "[ALGORITHM]PROGRAMMERS/Sort-가장큰수"
 
 excerpt: "#PROGRAMMERS #Sort"
 
