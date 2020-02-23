@@ -2,7 +2,7 @@
 
 title:  "[ALGORITHM]PROGRAMMERS/Sort-H-Index"
 
-excerpt: "#PROGRAMMERS #Greedy"
+excerpt: "#PROGRAMMERS #Sort"
 
 
 
