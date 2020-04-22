@@ -1,0 +1,293 @@
+I"nn<h2 id="문제">문제</h2>
+
+<p>N×M크기의 배열로 표현되는 미로가 있다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>1</th>
+      <th>0</th>
+      <th>1</th>
+      <th>1</th>
+      <th>1</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>미로에서 1은 이동할 수 있는 칸을 나타내고, 0은 이동할 수 없는 칸을 나타낸다. 이러한 미로가 주어졌을 때, (1, 1)에서 출발하여 (N, M)의 위치로 이동할 때 지나야 하는 최소의 칸 수를 구하는 프로그램을 작성하시오. 한 칸에서 다른 칸으로 이동할 때, 서로 인접한 칸으로만 이동할 수 있다.</p>
+
+<p>위의 예에서는 15칸을 지나야 (N, M)의 위치로 이동할 수 있다. 칸을 셀 때에는 시작 위치와 도착 위치도 포함한다.</p>
+
+<h3 id="입력">입력</h3>
+
+<p>첫째 줄에 두 정수 N, M(2 ≤ N, M ≤ 100)이 주어진다. 다음 N개의 줄에는 M개의 정수로 미로가 주어진다. 각각의 수들은 <strong>붙어서</strong> 입력으로 주어진다.</p>
+
+<h3 id="출력">출력</h3>
+
+<p>첫째 줄에 지나야 하는 최소의 칸 수를 출력한다. 항상 도착위치로 이동할 수 있는 경우만 입력으로 주어진다.</p>
+
+<h3 id="예제-입력-1">예제 입력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4 6
+101111
+101010
+101011
+111011
+</code></pre></div></div>
+
+<h3 id="예제-출력-1">예제 출력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>15
+</code></pre></div></div>
+
+<h3 id="예제-입력-2">예제 입력 2</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4 6
+110110
+110110
+111111
+111101
+</code></pre></div></div>
+
+<h3 id="예제-출력-2">예제 출력 2</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>9
+</code></pre></div></div>
+
+<h3 id="예제-입력-3">예제 입력 3</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2 25
+1011101110111011101110111
+1110111011101110111011101
+</code></pre></div></div>
+
+<h3 id="예제-출력-3">예제 출력 3</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>38
+</code></pre></div></div>
+
+<h3 id="예제-입력-4">예제 입력 4</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7 7
+1011111
+1110001
+1000001
+1000001
+1000001
+1000001
+1111111
+</code></pre></div></div>
+
+<h3 id="예제-출력-4">예제 출력 4</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>13
+</code></pre></div></div>
+
+<h2 id="나의-코드">나의 코드</h2>
+
+<h3 id="bfs">BFS</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.LinkedList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Queue</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">dx</span> <span class="o">=</span> <span class="o">{-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">dy</span> <span class="o">=</span> <span class="o">{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="no">N</span><span class="o">,</span> <span class="no">M</span><span class="o">;</span><span class="c1">// 세로, 가로</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">map</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">visited</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="nc">String</span><span class="o">[]</span> <span class="n">inputNM</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+        <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">inputNM</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+        <span class="no">M</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">inputNM</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+        <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">M</span><span class="o">];</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">M</span><span class="o">];</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">input</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">""</span><span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="no">M</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">map</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="n">j</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="no">BFS</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">map</span><span class="o">[</span><span class="no">N</span><span class="o">-</span><span class="mi">1</span><span class="o">][</span><span class="no">M</span><span class="o">-</span><span class="mi">1</span><span class="o">]);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">BFS</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Queue</span><span class="o">&lt;</span><span class="n">com</span><span class="o">.</span><span class="na">company</span><span class="o">.</span><span class="na">Point</span><span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">queue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">com</span><span class="o">.</span><span class="na">company</span><span class="o">.</span><span class="na">Point</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">));</span>
+        <span class="n">visited</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="k">while</span> <span class="o">(!</span><span class="n">queue</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()){</span>
+            <span class="n">com</span><span class="o">.</span><span class="na">company</span><span class="o">.</span><span class="na">Point</span> <span class="n">curPoint</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">curPoint</span><span class="o">.</span><span class="na">x</span> <span class="o">==</span> <span class="no">M</span><span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">curPoint</span><span class="o">.</span><span class="na">y</span> <span class="o">==</span> <span class="no">N</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                <span class="kt">int</span> <span class="n">nextX</span> <span class="o">=</span> <span class="n">curPoint</span><span class="o">.</span><span class="na">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+                <span class="kt">int</span> <span class="n">nextY</span> <span class="o">=</span> <span class="n">curPoint</span><span class="o">.</span><span class="na">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">nextX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="no">M</span> <span class="o">&lt;=</span> <span class="n">nextX</span> <span class="o">||</span> <span class="no">N</span> <span class="o">&lt;=</span> <span class="n">nextY</span> <span class="o">||</span> <span class="n">visited</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">||</span> <span class="n">map</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+                <span class="n">visited</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="n">map</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">+=</span> <span class="n">map</span><span class="o">[</span><span class="n">curPoint</span><span class="o">.</span><span class="na">y</span><span class="o">][</span><span class="n">curPoint</span><span class="o">.</span><span class="na">x</span><span class="o">];</span>
+                <span class="n">queue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">com</span><span class="o">.</span><span class="na">company</span><span class="o">.</span><span class="na">Point</span><span class="o">(</span><span class="n">nextX</span><span class="o">,</span> <span class="n">nextY</span><span class="o">));</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">class</span> <span class="nc">Point</span><span class="o">{</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">y</span><span class="o">;</span>
+    <span class="nc">Point</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="dfs--시간초과">DFS- 시간초과</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.BufferedReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">dx</span> <span class="o">=</span> <span class="o">{-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">dy</span> <span class="o">=</span> <span class="o">{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="no">N</span><span class="o">,</span> <span class="no">M</span><span class="o">;</span><span class="c1">// 세로, 가로</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">map</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">visited</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="n">min</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="nc">String</span><span class="o">[]</span> <span class="n">inputNM</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">);</span>
+        <span class="no">N</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">inputNM</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+        <span class="no">M</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">inputNM</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+
+        <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">M</span><span class="o">];</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">M</span><span class="o">];</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="nc">String</span><span class="o">[]</span> <span class="n">input</span> <span class="o">=</span> <span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">""</span><span class="o">);</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="no">M</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">map</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">[</span><span class="n">j</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="no">DFS</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">min</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">DFS</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">,</span> <span class="kt">int</span> <span class="n">count</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">visited</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">count</span><span class="o">++;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="no">M</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">y</span> <span class="o">==</span> <span class="no">N</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">min</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">min</span><span class="o">,</span> <span class="n">count</span><span class="o">);</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">nextX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">nextY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">nextX</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">nextY</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="no">M</span> <span class="o">&lt;=</span> <span class="n">nextX</span> <span class="o">||</span> <span class="no">N</span> <span class="o">&lt;=</span> <span class="n">nextY</span> <span class="o">||</span> <span class="n">visited</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">||</span> <span class="n">map</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">min</span> <span class="o">&lt;</span> <span class="n">count</span><span class="o">)</span>
+                <span class="k">continue</span><span class="o">;</span>
+            <span class="n">visited</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="no">DFS</span><span class="o">(</span><span class="n">nextX</span><span class="o">,</span> <span class="n">nextY</span><span class="o">,</span> <span class="n">count</span><span class="o">);</span>
+            <span class="n">visited</span><span class="o">[</span><span class="n">nextY</span><span class="o">][</span><span class="n">nextX</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>BFS는 너비우선 탐색으로 범위를 넓혀가면서 탐색을 한다. 그렇기 때문에 목적지 닿는 곳을 최소로 찾을수 있을 것이다. 그리고 찾으면 종료된다.</p>
+  </li>
+  <li>
+    <p>하지만 DFS는 깊이우선 탐색으로 한가지 경로를 잡으면 끝까지 가고, 그 다음 경로로 끝가지 가고 이런식이다. 그렇기 때문에 최소값을 찾기 위해서 모든 경로를 다 본 다음에 최소값을 찾아내야 한다.</p>
+  </li>
+  <li>
+    <p><strong>‼️ 따라서 최단 경로에는 BFS가 더 적합하다 ‼️</strong></p>
+
+    <ul>
+      <li>위 DFS경우 조건을 걸어서 최단 거리 없을거 같은 경우를 제외시켜주는 ? 그런걸 나중에 고민해서 더 짜봐야겠다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>BFS일 경우 탐색 길을 누적하는 것으로 하였다. 그러면 목적지에 최단경로의 값이 들어가 있을 것이다.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//입력1
+101111
+101010
+101011
+111011
+  
+//출력1
+1 0 9 10 11 12
+2 0 8 0  12 0
+3 0 7 0  13 14
+4 5 6 0  14 15
+  
+//입력2
+110110
+110110
+111111
+111101
+  
+//출력2
+1 2 0 8 9 0
+2 3 0 7 8 0
+3 4 5 6 7 8
+4 5 6 7 0 9
+</code></pre></div>    </div>
+
+    <p>보기 어렵지만 아무튼 이런식으로 !</p>
+  </li>
+</ul>
+
+<h2 id="느낀점">느낀점</h2>
+
+<p>BFS에 비해 DFS는 구현하기 더 간단하지만 시간초과 문제를 고려해야한다. 쓸모없는 탐색이 많을 수록 시간초과가 잘 된다. 그런 점에서 이 문제는 BFS가 더 적절했던거 같다. 문제를 보고 먼저 BFS/DFS중 어떤게 더 적합한 방법인지 고민하고 코드를 짜도록 해야겠다.  🧐이 문제를 통해 <strong>최단거리에는 BFS가 더 적합하다는 것을 알게되었다.</strong> 🧐</p>
+
+<ul>
+  <li>문제: https://www.acmicpc.net/problem/2178</li>
+  <li>저장소:
+    <ul>
+      <li>DFS: https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/1.BOJ/Q_2178_미로탐색_0114_DFS.java</li>
+      <li>BFS: https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/1.BOJ/Q_2178_미로탐색_0114_BFS.java</li>
+    </ul>
+  </li>
+</ul>
+:ET

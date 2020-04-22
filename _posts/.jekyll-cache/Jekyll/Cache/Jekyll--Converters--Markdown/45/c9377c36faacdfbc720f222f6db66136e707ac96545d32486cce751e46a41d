@@ -1,0 +1,140 @@
+I"d,<h2 id="문제">문제</h2>
+
+<p>가중치 없는 방향 그래프 G가 주어졌을 때, 모든 정점 (i, j)에 대해서, i에서 j로 가는 경로가 있는지 없는지 구하는 프로그램을 작성하시오.</p>
+
+<h3 id="입력">입력</h3>
+
+<p>첫째 줄에 정점의 개수 N (1 ≤ N ≤ 100)이 주어진다. 둘째 줄부터 N개 줄에는 그래프의 인접 행렬이 주어진다. i번째 줄의 j번째 숫자가 1인 경우에는 i에서 j로 가는 간선이 존재한다는 뜻이고, 0인 경우는 없다는 뜻이다. i번째 줄의 i번째 숫자는 항상 0이다.</p>
+
+<h3 id="출력">출력</h3>
+
+<p>총 N개의 줄에 걸쳐서 문제의 정답을 인접행렬 형식으로 출력한다. 정점 i에서 j로 가는 경로가 있으면 i번째 줄의 j번째 숫자를 1로, 없으면 0으로 출력해야 한다.</p>
+
+<h3 id="예제-입력-1">예제 입력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3
+0 1 0
+0 0 1
+1 0 0
+</code></pre></div></div>
+
+<h3 id="예제-출력-1">예제 출력 1</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 1 1
+1 1 1
+1 1 1
+</code></pre></div></div>
+
+<h3 id="예제-입력-2">예제 입력 2</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7
+0 0 0 1 0 0 0
+0 0 0 0 0 0 1
+0 0 0 0 0 0 0
+0 0 0 0 1 1 0
+1 0 0 0 0 0 0
+0 0 0 0 0 0 1
+0 0 1 0 0 0 0
+</code></pre></div></div>
+
+<h3 id="예제-출력-2">예제 출력 2</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 0 1 1 1 1 1
+0 0 1 0 0 0 1
+0 0 0 0 0 0 0
+1 0 1 1 1 1 1
+1 0 1 1 1 1 1
+0 0 1 0 0 0 1
+0 0 1 0 0 0 0
+</code></pre></div></div>
+
+<h2 id="나의-코드-dfs">나의 코드-DFS</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">map</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">visited</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="nc">Scanner</span> <span class="n">scanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">size</span><span class="o">][</span><span class="n">size</span><span class="o">];</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">size</span><span class="o">][</span><span class="n">size</span><span class="o">];</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="n">map</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">map</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">visited</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]){</span>
+                    <span class="no">DFS</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="nc">Print</span><span class="o">(</span><span class="n">map</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">DFS</span><span class="o">(</span><span class="kt">int</span> <span class="n">top</span><span class="o">,</span> <span class="kt">int</span> <span class="n">point</span><span class="o">){</span>
+        <span class="n">visited</span><span class="o">[</span><span class="n">top</span><span class="o">][</span><span class="n">point</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">map</span><span class="o">[</span><span class="n">point</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">visited</span><span class="o">[</span><span class="n">top</span><span class="o">][</span><span class="n">i</span><span class="o">]){</span>
+                <span class="n">map</span><span class="o">[</span><span class="n">top</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+                <span class="no">DFS</span><span class="o">(</span><span class="n">top</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">Print</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">map</span><span class="o">){</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">map</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">+</span> <span class="s">" "</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>나는 이 문제를 한개의 연결 요소에 연결 될 수 있는 것들을 표시하면서 내려갔다.</p>
+  </li>
+  <li>
+    <p>예를들어</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 0 0 1 0 0 0
+0 0 0 0 0 0 1
+0 0 0 0 0 0 0
+0 0 0 0 1 1 0
+1 0 0 0 0 0 0
+0 0 0 0 0 0 1
+0 0 1 0 0 0 0
+</code></pre></div>    </div>
+
+    <p>일때, 0과 연결된 요소들을 표시하였다.</p>
+
+    <p>0과 연결된 요소는 0 -&gt; 3이고, 3에서 4, 5 , 그리고 4에서 , 5에서 …. 이런식으로되어 간다. 이것을 DFS로 접근하였다.</p>
+  </li>
+  <li>
+    <p>일단 시작점이 될 수 있는 것을 모두 큐에 담고, 그것들을 하나씩 넓혀 가는 것이다.</p>
+    <ul>
+      <li>이게는 큐가 완벽하게 적합하다.</li>
+      <li>시작점이 A와 B가 있어 큐에 AB가있는데 A로부터 퍼진 것들이 B뒤로 오기 때문에 퍼짐을 동시에 할수 있게 되는 것이다 ! (말이 좀 어렵나? 아무튼.)</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>문제 : https://www.acmicpc.net/problem/11403</p>
+
+  <p>저장소 : https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/1.BOJ/Q_11403_경로찾기_0119.java</p>
+</blockquote>
+
+:ET
