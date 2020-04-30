@@ -151,11 +151,66 @@ class Solution {
 }
 ```
 
+- 우선 나는 집합의 개수가 가장 작은 것 부터 정렬을 하고 싶었다.
+
+  > `"{{1,2,3},{2,1},{1,2,4,3},{2}}"`
+  >
+  > 인 경우 {2}, {2,1}, {1,2,3},{1,2,4,3}
+  >
+  > 그러면, 이제 앞에서부터 확정을 짓는 것이다. (말로 설명 못하겠다..)
+
+- 아무튼 입력이 문자열로 주어져서, 이것을 원하는데로 정렬하는게 까다로웠던 것 같다.
+
+  ```java
+  ArrayList<String> arrayList = new ArrayList<>();
+  String temp = "";
+  //괄호를 제외하고, {2,1} 이면 => 2,1 이렇게 뽑아내는 코드이다.
+  for (int i = 1; i < s.length() - 1; i++) {
+    if (s.charAt(i) == '{') {
+      temp = "";
+    } else if (s.charAt(i) == '}') {
+      arrayList.add(temp);
+    } else {
+      temp += s.charAt(i);
+    }
+  }
+  
+  Collections.sort(arrayList, new Comparator<String>() {
+    @Override
+    public int compare(String o1, String o2) {
+      return o1.split(",").length - o2.split(",").length;
+    }
+  });
+  //2,1 과 2,1,3이 있을때 앞의 길이는 2, 뒤의 길이는 3 
+  //길이로 오름차순을 한 것이다.
+  ```
+
+- 다음 기존 집합에 존재 하면 안되는데, 순서가 필요하기 때문에 LinkedHashSet을 사용하였다.
+
+  ```java
+  LinkedHashSet<Integer> result = new LinkedHashSet<>();
+  for (String cur : arrayList){
+    String[] cur_list = cur.split(",");
+    for (int j = 0; j < cur_list.length; j++){
+      if (!result.contains(cur_list[j])) result.add(Integer.parseInt(cur_list[j]));
+      //결과에 존재하지 않으면 넣어준다 !
+    }
+  }
+  ```
+
+
+
+📌 자르는 코드 다른 사람것, 공부해볼것 !
+
+```java
+String[] arr = s.replaceAll("[{]", " ").replaceAll("[}]", " ").trim().split(" , ");
+```
+
+> 진짜 무릎을 팍 쳤다. 내가 딱 원하는 것을 한줄에 구현했네,,,,,,,,,
+
 
 
 ### 🔗 링크
-
-답은 맞았지만 썩 맘에 드는 코드가 아니다. 문자열을 ,로 잘라서 길이 비교 하는 것부분을 좀 고쳐 보도록 해야겠다.
 
 - 문제: https://programmers.co.kr/learn/courses/30/lessons/64065
 - 저장소: https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/4.KAKAO/Q_튜플.java
