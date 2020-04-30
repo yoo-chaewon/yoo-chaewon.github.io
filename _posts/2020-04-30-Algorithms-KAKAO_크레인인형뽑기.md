@@ -82,31 +82,24 @@ toc_sticky: true # 스크롤 내릴때 같이 내려가는 목차
 
 ```java
 import java.util.*;
+
 class Solution {
     public int solution(int[][] board, int[] moves) {
-        Stack<Integer>[] board_stack = new Stack[board.length];
-
-        for (int i = 0; i < board.length; i++){
-            board_stack[i] = new Stack<>();
-        }
-
-        for (int i = board.length-1; i >= 0 ; i--){
-            for (int j = 0; j < board.length; j++){
-                if (board[i][j] != 0) board_stack[j].add(board[i][j]);
-            }
-        }
-
+        Stack<Integer> basket = new Stack<>();// 바구니 자료형은 Stack
         int answer = 0;
 
-        Stack<Integer> basket = new Stack<>();
-        for (int move : moves){
-            if (!board_stack[move-1].isEmpty()){
-                int cur = board_stack[move-1].pop();
-                if (!basket.isEmpty() && cur == basket.peek()){
-                        answer+=2;
+        for (int move : moves) {// 움직임 한개씩 사용
+            for (int i = 0; i < board.length; i++) {
+                if (board[i][move - 1] != 0) {
+                    if (!basket.isEmpty() && board[i][move - 1] == basket.peek()) {
+                      // 같은 것이 2개가 쌓일 경우, 이전꺼를 빼주고 answer+=2
+                        answer += 2;
                         basket.pop();
-                }else {
-                    basket.push(cur);
+                    } else {
+                        basket.push(board[i][move - 1]);
+                    }
+                    board[i][move - 1] = 0;
+                    break;//꼭 해줘야함!!
                 }
             }
         }
@@ -115,32 +108,7 @@ class Solution {
 }
 ```
 
-- 2차원 배열인 board를 그대로 사용하려고 했는데, 인덱스 조작하는 것이 어려울꺼 같아서
-
-  ```java
-  Stack<Integer>[] board_stack = new Stack[board.length];
-  ```
-
-  로 해주었다. 근데 생각보다 조작이 어려울거 같지 않아서 배열로 다시 나중에 풀어봐야겠다.
-
-- 우선 바구니를 stack으로 해주었다.
-
-  ```java
-   Stack<Integer> basket = new Stack<>();
-  for (int move : moves){
-    if (!board_stack[move-1].isEmpty()){
-      int cur = board_stack[move-1].pop();//해당 위치에서 꺼냄.
-      if (!basket.isEmpty() && cur == basket.peek()){//꺼낸 것과 바구니 맨 위에 같다면,
-        answer+=2;//2개 빠져야 하니까 2를 더함
-        basket.pop();//기존꺼 빼주기
-      }else {
-        basket.push(cur);
-      }
-    }
-  }
-  ```
-
-  
+- 코드 주석으로 설명!!!
 
 ### 🔗 링크
 
