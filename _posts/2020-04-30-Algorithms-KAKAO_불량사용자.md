@@ -146,9 +146,11 @@ toc_sticky: true # 스크롤 내릴때 같이 내려가는 목차
 
 ```java
 import java.util.*;
-class Solution {
-    static HashSet<String> result_set = new HashSet<>();
+
+public class Solution {
+    static HashSet<String> result_set;
     public static int solution(String[] user_id, String[] banned_id) {
+        result_set = new HashSet<>();
         boolean[] visited = new boolean[user_id.length];
         Permutation(user_id, banned_id, visited, 0, "");
         return result_set.size();
@@ -159,12 +161,11 @@ class Solution {
             if (Check(user_id, banned_id, result)) {
                 String[] temp = result.split("");
                 Arrays.sort(temp);
-                String tmpStr = "";
-                for (String str : temp){
-                    tmpStr += str;
+                StringBuilder tmpStr = new StringBuilder("");
+                for (String str : temp) {
+                    tmpStr.append(str);
                 }
-//                System.out.println(tmpStr);
-                result_set.add(tmpStr);
+                result_set.add(tmpStr.toString());
             }
             return;
         }
@@ -172,11 +173,12 @@ class Solution {
         for (int i = 0; i < user_id.length; i++) {
             if (!visited[i]) {
                 visited[i] = true;
-                Permutation(user_id, banned_id, visited, depth + 1, result + i);
+                Permutation(user_id, banned_id, visited, depth + 1, result + i + "");
                 visited[i] = false;
             }
         }
     }
+
     public static boolean Check(String[] user_id, String[] banned_id, String result) {
         for (int i = 0; i < result.length(); i++) {
             String id = user_id[result.charAt(i) - '0'];
@@ -191,26 +193,88 @@ class Solution {
 }
 ```
 
+- 이거 제일 오래 걸린 문제이다. 처음에는 조합의 공식을 사용하는 줄 알아서 그것을 찾으려다가 시간이 오래 걸렸다.
 
+  👉 벗뜨, 공식을 구하지 못했다. 아직도 있을거 같아서 미련남지만 버리자.
+
+- 다음 고민은 순열로 뽑아야하는지 조합으로 뽑아야 하는지 고민을 많이 했다.
+
+  > 하지만, banned_id와 비교하는 과정에서 
+  >
+  > Banned_id는 고정으로 되어 있고,
+  >
+  > ["*rodo", "*rodo", "* * * * * *"]  // banned_id
+  >
+  > ["frodo", "crodo", "abc123"]  // id에서 3개 뽑음
+  >
+  >  👉 순서가 다르게 뽑힐 경우에는 1:1비교시 안된다고 나오기 때문에 **순열**로 해야한다고 판단했다.
+  >
+  >  👉 값이너무 커질까봐 그래서 공식을 생각했던 것인데, user_id 배열의 크기는 1이상 8이하로주어졌다.
+
+- 순열 코드
+
+  ```java
+  public static void Permutation(String[] user_id, String[] banned_id, boolean[] visited, int depth, String result) {
+    if (depth == banned_id.length) {//금지 아이디 만큼 뽑았을 경우
+      if (Check(user_id, banned_id, result)) {
+        String[] temp = result.split("");
+        Arrays.sort(temp);
+        StringBuilder tmpStr = new StringBuilder("");
+        for (String str : temp) {
+          tmpStr.append(str);
+        }
+        result_set.add(tmpStr.toString());
+      }
+      return;
+    }
+  
+    for (int i = 0; i < user_id.length; i++) {
+      if (!visited[i]) {
+        visited[i] = true;
+        Permutation(user_id, banned_id, visited, depth + 1, result + i + "");
+        visited[i] = false;
+      }
+    }
+  }
+  ```
+
+- 금지 아이디 만큼 뽑았을 경우 금지와 비교해서 되는 case인지 확인해야 한다.
+
+  ```java
+  public static boolean Check(String[] user_id, String[] banned_id, String result) {
+    for (int i = 0; i < result.length(); i++) {
+      String id = user_id[result.charAt(i) - '0'];
+      String banned = banned_id[i];
+      for (int j = 0; j < id.length(); j++) {
+        if (id.length() != banned.length()) return false;
+        if (banned.charAt(j) != '*' && id.charAt(j) != banned.charAt(j)) return false;//* 이 아닌 글자는 모두 같아야 함.
+      }
+    }
+    return true;
+  }
+  ```
+
+- 근데 여기서 가장 또 오래 고민한 것이,
+
+  Frodo crodo abc123과, crodo Frodo abc123은 같은데 어떻게 같은 것으로 표현하지 였다.
+
+  그래서 일단 Check가 True인 경우, 결과값이 204 와 024면 이것을 정렬해서 result_set에 넣어주었다.
+
+  ```java
+  if (Check(user_id, banned_id, result)) {
+    String[] temp = result.split("");
+    Arrays.sort(temp);
+    StringBuilder tmpStr = new StringBuilder("");
+    for (String str : temp) {
+      tmpStr.append(str);
+    }
+    result_set.add(tmpStr.toString());
+  }
+  ```
+
+  👉 이부분코드가 별로라고 생각한다. 다른 좋은 방법 있을 거 같은데 좀더 고민해봐야겠다.
 
 ### 🔗 링크
-
-답은 맞았지만 썩 맘에 드는 코드가 아니다. 
-
-```java
-if (Check(user_id, banned_id, result)) {
-                String[] temp = result.split("");
-                Arrays.sort(temp);
-                String tmpStr = "";
-                for (String str : temp){
-                    tmpStr += str;
-                }
-//                System.out.println(tmpStr);
-                result_set.add(tmpStr);
-            }
-```
-
-이 부분을 어떻게 고칠지 고민해봐야겠다.
 
 - 문제: https://programmers.co.kr/learn/courses/30/lessons/64064
 - 저장소: https://github.com/yoo-chaewon/HELLO_JAVA/blob/master/Algorithm/4.KAKAO/Q_튜플.java
